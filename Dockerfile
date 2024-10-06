@@ -5,7 +5,7 @@ FROM php:7.4-apache
 # Install the MySQL extension
 RUN docker-php-ext-install mysqli
 #        /usr/local/bin/docker-php-ext-install -j5 gd mbstring mysqli pdo pdo_mysql shmop
-RUN docker-php-ext-install -j5 mysqli  pdo pdo_mysql
+RUN docker-php-ext-install -j5 mysqli pdo pdo_mysql
 
 # Create a directory for your application code
 WORKDIR /var/www/html
