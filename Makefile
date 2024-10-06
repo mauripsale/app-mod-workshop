@@ -15,4 +15,4 @@ build-and-run:docker-build docker-run-local
 
 # Cloud Run
 sample-deploy-invocation:
-	gcloud run deploy php-amarcord --source . --env-vars-file .env --region europe-west8 --allow-unauthenticated
+	bin/gcloud-run-deploy.sh

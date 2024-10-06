@@ -16,3 +16,6 @@ COPY ./ /var/www/html
 # Expose port 80 for web traffic
 EXPOSE 80
 
+# added per Clod Run
+# https://stackoverflow.com/questions/59324794/google-cloud-run-port
+ENV PORT 80
