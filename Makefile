@@ -14,5 +14,5 @@ build-and-run:docker-build docker-run-local
 
 
 # Cloud Run
-sample-deploy-invocation:
+deploy:
 	bin/gcloud-run-deploy.sh

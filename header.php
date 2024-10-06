@@ -1,6 +1,6 @@
 <div class='center'>
     [
-        <a href='/register.php'>🏠 Home</a>
+        <a href='/'>🏠 Home</a>
         |
         <a href='/register.php'>👉 Registrati</a>
         |

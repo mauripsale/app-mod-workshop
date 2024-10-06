@@ -10,7 +10,7 @@ set -euo pipefail
 # ERROR: (gcloud.run.deploy) spec.template.spec.containers[0].env: The following reserved env names were provided: PORT. These values are automatically set by the system.
 
 gcloud --project "$PROJECT_ID" run deploy \
-    php-amarcord80 \
+    php-amarcord \
     --source . \
     --port 80 \
     --set-env-vars DB_PASS="$DB_PASS" \
