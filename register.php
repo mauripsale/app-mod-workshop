@@ -14,9 +14,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 }
 ?>
-
+<?php
+include 'header.php';
+?>
 <form method="post">
     <input type="text" name="username" placeholder="Username" required />
     <input type="password" name="password" placeholder="Password" required />
     <button type="submit">Registrati</button>
 </form>
+<?php
+  include 'footer.php';
+?>

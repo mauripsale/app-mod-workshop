@@ -15,8 +15,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         header("Location: index.php");
     } else {
         echo "Credenziali non valide";
+        # Ricc patch
+        #echo "Credenziali non valide. REMOVEME user='$user'. Expexted hash: " . $user['password'];
     }
 }
+?>
+<?php
+    include 'header.php';
 ?>
 
 <form method="post">
@@ -24,3 +29,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <input type="password" name="password" placeholder="Password" required />
     <button type="submit">Login</button>
 </form>
+<?php
+include 'footer.php';
+?>

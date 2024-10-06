@@ -1,3 +1,11 @@
+# TODO per Gregorio
+
+1. fixa db/ -> Pr esiste
+1. Aggiungi .env.dist
+1. Aggiungi .env a .gitignore per evitare che la gente lo checki per sbaglio.
+
+
+
 # Workshop: Application Modernization in GCP
 Codebase for the workshop "Application Modernization in GCP"
 

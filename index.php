@@ -6,6 +6,8 @@ if (!isset($_SESSION['user_id'])) {
     exit;
 }
 
+include 'header.php';
+
 // Se l'utente è amministratore, può vedere tutte le immagini
 $is_admin = ($_SESSION['role'] == 'admin');
 
@@ -31,3 +33,8 @@ $images = $stmt->fetchAll();
         <?php endif; ?>
     </div>
 <?php endforeach; ?>
+
+
+<?php
+include 'footer.php';
+?>

@@ -6,6 +6,18 @@ INSERT INTO users (username, password, role) VALUES
 ('user1', '$2y$10$e1zUV7EvFQb/VqjUS1U15O04kDXdzboF4AGU.yPvgHSvmzgV6hg16', 'user'),   -- Password: user123
 ('user2', '$2y$10$yfU8F5v/OAVYoZz2EB6gNOozF.SAqA.VduOASCN5UuMJPmq41E7be', 'user');   -- Password: user123
 
+
+-- added 2 lines.
+-- * Riccardo does NOT work
+-- * rasmuslerdorf DOES work.
+INSERT INTO users (username, password, role) VALUES
+    ('riccardo', '$2y$10$yfU8F5v/OAVYoZz2EB6gNOozF.SAqA.VduOASCN5UuMJPmq41E7be', 'user');   -- Password: user123
+-- https://www.php.net/manual/en/function.password-verify.php
+-- This hash works
+INSERT INTO users (username, password, role) VALUES
+    ('rasmuslerdorf','$2y$10$.vGA1O9wmRjrwAVXD98HNOgsNpDczlqm3Jq7KnEd1rVAGv3Fykk1a', 'admin');   -- Password: rasmuslerdorf
+
+
 -- Popolamento tabella images con alcune immagini iniziali
 INSERT INTO images (user_id, filename, inappropriate) VALUES
 (2, 'uploads/image1.png', 0),
