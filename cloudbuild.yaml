@@ -36,7 +36,11 @@ steps:
       - '--set-env-vars'
       -   "DB_NAME=$_DB_NAME"  # From CB trigger
       - '--set-env-vars'
-      -   "DB_PASS=$_DB_PASS"  # From SM defined in this yaml - end of page.
+      -   "DB_PASS=$DB_PASS"  # From SM defined in this yaml - end of page.
+      - '--set-env-vars'
+      -   "SECRET_MANAGER_DB_PASS1=$SECRET_MANAGER_DB_PASS"  # From SM defined in this yaml - end of page.
+      - '--set-env-vars'
+      -   "SECRET_MANAGER_DB_PASS2=$_SECRET_MANAGER_DB_PASS"  # From SM defined in this yaml - end of page.
       # - '--set-env-vars'
       # -   "DB_PASS_TWODOLLS=$$DB_PASS"  # From SM defined in this yaml - end of page.
       # - '--set-env-vars'
@@ -49,7 +53,7 @@ steps:
       - '--quiet'
       # Note to self: non va col services..
       - '--allow-unauthenticated'
-    secretEnv: ['DB_PASS']
+    secretEnv: ['DB_PASS','SECRET_MANAGER_DB_PASS']
     env: # https://cloud.google.com/build/docs/configuring-builds/substitute-variable-values=
     # copying RAILS_ENV approach.
     - PHP_ENV=development
@@ -113,3 +117,5 @@ availableSecrets:
   secretManager:
   - versionName: projects/$PROJECT_ID/secrets/php-amarcord-db-pass/versions/latest
     env: 'DB_PASS'
+  - versionName: projects/$PROJECT_ID/secrets/php-amarcord-db-pass/versions/latest
+    env: 'SECRET_MANAGER_DB_PASS'

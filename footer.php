@@ -4,8 +4,7 @@
     # PHP 5.3 syntax. In 7 its more elegant: $name = $_GET['name'] ?? 'john doe';
     $appname = getenv('APP_NAME')  ?: '_APP_NAME_SCONOSCIUTA_'; # https://stackoverflow.com/questions/5972516/best-way-to-give-a-variable-a-default-value-simulate-perl
     $php_env = getenv('PHP_ENV')  ?: 'testing-I-guess'; # https://stackoverflow.com/questions/5972516/best-way-to-give-a-variable-a-default-value-simulate-perl
-
-    $code_repo getenv('CODE_REPO')  ?: 'https://github.com/Friends-of-Ricc/app-mod-workshop/blob/main/CHANGELOG.md';
+    $code_repo = getenv('CODE_REPO')  ?: 'https://github.com/Friends-of-Ricc/app-mod-workshop/blob/main/CHANGELOG.md';
     #$app_version = getenv('APP_VERSION')  ?: '0.0.?';
     $app_version = file_get_contents('VERSION');
     echo "Welcome to <b>$appname</b> v<b>$app_version</b>!";
