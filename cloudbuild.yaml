@@ -22,6 +22,7 @@ steps:
     args:
       - run
       - deploy
+      # alternative: requires service to already exist (will work all the time, except the first :P)
       # - services
       # - update
       - ${_SERVICE_NAME}-dev
@@ -29,22 +30,50 @@ steps:
       - '--port=80'
       - >-
         --image=$_AR_HOSTNAME/$PROJECT_ID/cloud-run-source-deploy/$REPO_NAME/$_SERVICE_NAME:$COMMIT_SHA
-#      - >-
- #       --labels=managed-by=gcp-cloud-build-deploy-cloud-run,commit-sha=$COMMIT_SHA,gcb-build-id=$BUILD_ID,php-amarcord-github-user=$_GITHUB_USER,devfest-city:$_DEVFEST_CITY
+      - >-
+        --labels=managed-by=gcp-cloud-build-deploy-cloud-run,commit-sha=$COMMIT_SHA,gcb-build-id=$BUILD_ID,php-amarcord-github-user=$_GITHUB_USER,devfest-city:$_DEVFEST_CITY
       - '--region=$_DEPLOY_REGION'
       - '--quiet'
-# non va col services..
+      # Note to self: non va col services..
       - '--allow-unauthenticated'
-    # https://cloud.google.com/build/docs/configuring-builds/substitute-variable-values
-    env:
+    env: # https://cloud.google.com/build/docs/configuring-builds/substitute-variable-values=
     # copying RAILS_ENV approach.
     - PHP_ENV=development
     - PORT=80
-    # - 'PROJECT_ID=$PROJECT_ID'
-    # - 'PROJECT_NUMBER=$PROJECT_NUMBER'
-    # - 'REV=$REVISION_ID'
-    id: Deploy to DEV version # ehwn it works we clone to PROD
+    - APP_NAME="A PHP Amarcord app deployed via Cloud Build to dev - break me as much as you want!"
+    - DEBUG="true"
+    id: Deploy to DEV version
     entrypoint: gcloud
+
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk:slim'
+    # All configs for `gcloud run deploy` are here: https://cloud.google.com/sdk/gcloud/reference/run/deploy
+    args:
+      - run
+      - deploy
+      # alternative: requires service to already exist (will work all the time, except the first :P)
+      # - services
+      # - update
+      - ${_SERVICE_NAME}-prod
+      - '--platform=managed'
+      - '--port=80'
+      - >-
+        --image=$_AR_HOSTNAME/$PROJECT_ID/cloud-run-source-deploy/$REPO_NAME/$_SERVICE_NAME:$COMMIT_SHA
+      - >-
+        --labels=managed-by=gcp-cloud-build-deploy-cloud-run,commit-sha=$COMMIT_SHA,gcb-build-id=$BUILD_ID,php-amarcord-github-user=$_GITHUB_USER,devfest-city:$_DEVFEST_CITY
+      - '--region=$_DEPLOY_REGION'
+      - '--quiet'
+      # Note to self: non va col services..
+      - '--allow-unauthenticated'
+    env: # https://cloud.google.com/build/docs/configuring-builds/substitute-variable-values=
+    # copying RAILS_ENV approach.
+    - PHP_ENV=production
+    - PORT=80
+    - APP_NAME="A PHP Amarcord app deployed via Cloud Build to PROD - please do not deploy on Fridays!"
+    - DEBUG="false"
+    id: Deploy to PROD version
+    entrypoint: gcloud
+
+
 images:
   - >-
     $_AR_HOSTNAME/$PROJECT_ID/cloud-run-source-deploy/$REPO_NAME/$_SERVICE_NAME:$COMMIT_SHA
@@ -55,7 +84,6 @@ substitutions:
   _DEPLOY_REGION: europe-west8
   _AR_HOSTNAME: europe-west8-docker.pkg.dev
   _PLATFORM: managed
-#  _TRIGGER_ID: 9891957f-78d9-4931-a993-300127dafa7e
   _SERVICE_NAME: php-amarcord
   _EXECUTION_ENVIRONMENT: 'rgc/cloudbuild'
   _GITHUB_USER: palladius
@@ -64,19 +92,3 @@ tags:
   - gcp-cloud-build-deploy-cloud-run
   - php-amarcord
   - ricc-ne-sa-a-tronchi
-  # - gcp-cloud-build-deploy-cloud-run-managed
-  # - zapiekanka
-  # - gegonos
-
-
-### ERRORs
-#Step #2 - "Deploy to DEV version": ERROR: (gcloud.run.services.update) PERMISSION_DENIED: Permission 'run.services.get' denied on resource 'namespaces/ricc-demos-386214/services/php-amarcord' (or resource may not exist). This command is authenticated as 839850161816@cloudbuild.gserviceaccount.com which is the active account specified by the [core/account] property.
-
-#textPayload: "ERROR: build step 2 "gcr.io/google.com/cloudsdktool/cloud-sdk:slim" failed: step exited with non-zero status: 1"
-
-# Step #2 - "Deploy to DEV version": ERROR: (gcloud.run.deploy) PERMISSION_DENIED:
-# Permission 'run.services.get' denied on resource 'namespaces/ricc-demos-386214/services/php-amarcord-cb'
-#  (or resource may not exist). This command is authenticated as 839850161816@cloudbuild.gserviceaccount.com
-# which is the active account specified by the [core/account] property.
-
-#Step #2 - "Deploy to DEV version": ERROR: (gcloud.run.deploy) [839850161816@cloudbuild.gserviceaccount.com] does not have permission to access namespaces instance [ricc-demos-386214] (or it may not exist): Permission 'iam.serviceaccounts.actAs' denied on service account 839850161816-compute@developer.gserviceaccount.com (or it may not exist). This command is authenticated as 839850161816@cloudbuild.gserviceaccount.com which is the active account specified by the [core/account] property.
