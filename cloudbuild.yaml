@@ -73,3 +73,8 @@ tags:
 #Step #2 - "Deploy to DEV version": ERROR: (gcloud.run.services.update) PERMISSION_DENIED: Permission 'run.services.get' denied on resource 'namespaces/ricc-demos-386214/services/php-amarcord' (or resource may not exist). This command is authenticated as 839850161816@cloudbuild.gserviceaccount.com which is the active account specified by the [core/account] property.
 
 #textPayload: "ERROR: build step 2 "gcr.io/google.com/cloudsdktool/cloud-sdk:slim" failed: step exited with non-zero status: 1"
+
+# Step #2 - "Deploy to DEV version": ERROR: (gcloud.run.deploy) PERMISSION_DENIED:
+# Permission 'run.services.get' denied on resource 'namespaces/ricc-demos-386214/services/php-amarcord-cb'
+#  (or resource may not exist). This command is authenticated as 839850161816@cloudbuild.gserviceaccount.com
+# which is the active account specified by the [core/account] property.
