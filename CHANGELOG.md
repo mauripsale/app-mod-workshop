@@ -1,6 +1,7 @@
 ## CHANGELOG
 
 ```
+2024-10-08 v1.6 Added CODE_REPO to `CB.yaml` and to `footer.php`
 2024-10-08 v1.5 Getting CloudBuild.yaml to work..
 2024-10-07 v1.4 Removing phpinfo...
 2024-10-06 v1.3 Moved APP_VERSION to file.
