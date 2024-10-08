@@ -30,13 +30,11 @@ steps:
       - '--port=80'
       # Set up ENV vars for the Cloud run app..
       - '--set-env-vars'
-      -   "DB_USER=$DB_USER"
+      -   "DB_USER=$_DB_USER"
       - '--set-env-vars'
-      -   "DB_HOST=$DB_HOST"
+      -   "DB_HOST=$_DB_HOST"
       - '--set-env-vars'
-      -   "DB_NAME=$DB_NAME"
-      - '--set-env-vars'
-      -   "PROVARIC_DB_NAME_UNDERSCOPRE=$_DB_NAME"
+      -   "DB_NAME=$_DB_NAME"
       - >-
         --image=$_AR_HOSTNAME/$PROJECT_ID/cloud-run-source-deploy/$REPO_NAME/$_SERVICE_NAME:$COMMIT_SHA
 #      - >-
