@@ -35,17 +35,16 @@ steps:
       -   "DB_HOST=$_DB_HOST"  # From CB trigger
       - '--set-env-vars'
       -   "DB_NAME=$_DB_NAME"  # From CB trigger
-      - '--set-env-vars'
-      -   'TEST_SECRET_MANAGER_DB_PASS1=$$SECRET_MANAGER_DB_PASS'  # following pedissequally the user/pass example in docs..
-      - '--set-env-vars'
-      -   "TEST_SECRET_MANAGER_DB_PASS2=$_SECRET_MANAGER_DB_PASS"  # dopesnt work, seems empty
+      # This is EMPTY -> doesnt work.
+      #- '--set-env-vars'
+      #-   "TEST_SECRET_MANAGER_DB_PASS2=$_SECRET_MANAGER_DB_PASS"  # dopesnt work, seems empty
       # This works
       - '--set-secrets'
-      -   "DB_PASS=projects/839850161816/secrets/php-amarcord-db-pass" # TODO works only for Riccardo, change with your own PROJECT_NUMBER
+      -   "DB_PASS=projects/${_PROJECT_NUMBER}/secrets/php-amarcord-db-pass" # TODO works only for Riccardo, change with your own PROJECT_NUMBER
       - >-
         --image=$_AR_HOSTNAME/$PROJECT_ID/cloud-run-source-deploy/$REPO_NAME/$_SERVICE_NAME:$COMMIT_SHA
-#      - >-
-#        --labels=managed-by=gcp-cloud-build-deploy-cloud-run,commit-sha=$COMMIT_SHA,gcb-build-id=$BUILD_ID,php-amarcord-github-user=$_GITHUB_USER,devfest-city=$_DEVFEST_CITY
+      - >-
+        --labels=managed-by=gcp-cloud-build-deploy-cloud-run,commit-sha=$COMMIT_SHA,gcb-build-id=$BUILD_ID,php-amarcord-github-user=$_GITHUB_USER,devfest-city=$_DEVFEST_CITY
       - '--region=$_DEPLOY_REGION'
       - '--quiet'
       # Note to self: non va col services..
@@ -103,8 +102,9 @@ substitutions:
   _PLATFORM: managed
   _SERVICE_NAME: php-amarcord
   _EXECUTION_ENVIRONMENT: 'rgc/cloudbuild'
-  _GITHUB_USER: Friends-of-Ricc # change your your own, eg 'gregorio'
   _DEVFEST_CITY: modena
+  _GITHUB_USER: Friends-of-Ricc # change your your own, eg 'gregorio'
+  _PROJECT_NUMBER: "839850161816" # Change it with your own
 tags:
   - gcp-cloud-build-deploy-cloud-run
   - php-amarcord
