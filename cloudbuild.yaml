@@ -35,12 +35,14 @@ steps:
       -   "DB_HOST=$_DB_HOST"  # From CB trigger
       - '--set-env-vars'
       -   "DB_NAME=$_DB_NAME"  # From CB trigger
-      - '--set-env-vars'
-      -   "DB_PASS=$DB_PASS"  # From SM defined in this yaml - end of page.
+      # - '--set-env-vars'
+      # -   "DB_PASS=$DB_PASS"  # From SM defined in this yaml - end of page.
       - '--set-env-vars'
       -   "SECRET_MANAGER_DB_PASS1=$SECRET_MANAGER_DB_PASS"  # From SM defined in this yaml - end of page.
       - '--set-env-vars'
       -   "SECRET_MANAGER_DB_PASS2=$_SECRET_MANAGER_DB_PASS"  # From SM defined in this yaml - end of page.
+      - '--set-secrets'
+      -   "DB_PASS=projects/839850161816/secrets/php-amarcord-db-pass" # TODO works only for Riccardo, change with your own PROJECT_NUMBER
       # - '--set-env-vars'
       # -   "DB_PASS_TWODOLLS=$$DB_PASS"  # From SM defined in this yaml - end of page.
       # - '--set-env-vars'
