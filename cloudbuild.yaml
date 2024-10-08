@@ -28,6 +28,15 @@ steps:
       - ${_SERVICE_NAME}-dev
       - '--platform=managed'
       - '--port=80'
+      # Set up ENV vars for the Cloud run app..
+      - '--set-env-vars'
+      -   "DB_USER=$DB_USER"
+      - '--set-env-vars'
+      -   "DB_HOST=$DB_HOST"
+      - '--set-env-vars'
+      -   "DB_NAME=$DB_NAME"
+      - '--set-env-vars'
+      -   "PROVARIC_DB_NAME_UNDERSCOPRE=$_DB_NAME"
       - >-
         --image=$_AR_HOSTNAME/$PROJECT_ID/cloud-run-source-deploy/$REPO_NAME/$_SERVICE_NAME:$COMMIT_SHA
 #      - >-
@@ -43,37 +52,38 @@ steps:
     - APP_NAME="A PHP Amarcord app deployed via Cloud Build to dev - break me as much as you want!"
     - DEBUG="true"
     - CODE_REPO="https://github.com/${_GITHUB_USER/app-mod-workshop/"
+    - "_DB_NAME=image_catalog_da_cb"
     id: Deploy to DEV version
     entrypoint: gcloud
 
-  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk:slim'
-    # All configs for `gcloud run deploy` are here: https://cloud.google.com/sdk/gcloud/reference/run/deploy
-    args:
-      - run
-      - deploy
-      # alternative: requires service to already exist (will work all the time, except the first :P)
-      # - services
-      # - update
-      - ${_SERVICE_NAME}-prod
-      - '--platform=managed'
-      - '--port=80'
-      - >-
-        --image=$_AR_HOSTNAME/$PROJECT_ID/cloud-run-source-deploy/$REPO_NAME/$_SERVICE_NAME:$COMMIT_SHA
-      - >-
-        --labels=managed-by=gcp-cloud-build-deploy-cloud-run,commit-sha=$COMMIT_SHA,gcb-build-id=$BUILD_ID,php-amarcord-github-user=$_GITHUB_USER,devfest-city=$_DEVFEST_CITY
-      - '--region=$_DEPLOY_REGION'
-      - '--quiet'
-      # Note to self: non va col services..
-      - '--allow-unauthenticated'
-    env: # https://cloud.google.com/build/docs/configuring-builds/substitute-variable-values=
-    # copying RAILS_ENV approach.
-    - PHP_ENV=production
-    - PORT=80
-    - APP_NAME="A PHP Amarcord app deployed via Cloud Build to PROD - please do not deploy on Fridays!"
-    - DEBUG="false"
-    - CODE_REPO="https://github.com/${_GITHUB_USER/app-mod-workshop/"
-    id: Deploy to PROD version
-    entrypoint: gcloud
+  # - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk:slim'
+  #   # All configs for `gcloud run deploy` are here: https://cloud.google.com/sdk/gcloud/reference/run/deploy
+  #   args:
+  #     - run
+  #     - deploy
+  #     # alternative: requires service to already exist (will work all the time, except the first :P)
+  #     # - services
+  #     # - update
+  #     - ${_SERVICE_NAME}-prod
+  #     - '--platform=managed'
+  #     - '--port=80'
+  #     - >-
+  #       --image=$_AR_HOSTNAME/$PROJECT_ID/cloud-run-source-deploy/$REPO_NAME/$_SERVICE_NAME:$COMMIT_SHA
+  #     - >-
+  #       --labels=managed-by=gcp-cloud-build-deploy-cloud-run,commit-sha=$COMMIT_SHA,gcb-build-id=$BUILD_ID,php-amarcord-github-user=$_GITHUB_USER,devfest-city=$_DEVFEST_CITY
+  #     - '--region=$_DEPLOY_REGION'
+  #     - '--quiet'
+  #     # Note to self: non va col services..
+  #     - '--allow-unauthenticated'
+  #   env: # https://cloud.google.com/build/docs/configuring-builds/substitute-variable-values=
+  #   # copying RAILS_ENV approach.
+  #   - PHP_ENV=production
+  #   - PORT=80
+  #   - APP_NAME="A PHP Amarcord app deployed via Cloud Build to PROD - please do not deploy on Fridays!"
+  #   - DEBUG="false"
+  #   - CODE_REPO="https://github.com/${_GITHUB_USER/app-mod-workshop/"
+  #   id: Deploy to PROD version
+  #   entrypoint: gcloud
 
 
 images:
