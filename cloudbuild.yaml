@@ -24,7 +24,7 @@ steps:
       - deploy
       # - services
       # - update
-      - $_SERVICE_NAME
+      - ${_SERVICE_NAME}-dev
       - '--platform=managed'
       #- '--port=80'
       - >-
@@ -43,7 +43,7 @@ steps:
     # - 'PROJECT_ID=$PROJECT_ID'
     # - 'PROJECT_NUMBER=$PROJECT_NUMBER'
     # - 'REV=$REVISION_ID'
-    id: Deploy to DEV version
+    id: Deploy to DEV version # ehwn it works we clone to PROD
     entrypoint: gcloud
 images:
   - >-
@@ -56,7 +56,7 @@ substitutions:
   _AR_HOSTNAME: europe-west8-docker.pkg.dev
   _PLATFORM: managed
 #  _TRIGGER_ID: 9891957f-78d9-4931-a993-300127dafa7e
-  _SERVICE_NAME: php-amarcord-cb # -dev
+  _SERVICE_NAME: php-amarcord
   _EXECUTION_ENVIRONMENT: 'rgc/cloudbuild'
   _GITHUB_USER: palladius
   _DEVFEST_CITY: modena
@@ -78,3 +78,5 @@ tags:
 # Permission 'run.services.get' denied on resource 'namespaces/ricc-demos-386214/services/php-amarcord-cb'
 #  (or resource may not exist). This command is authenticated as 839850161816@cloudbuild.gserviceaccount.com
 # which is the active account specified by the [core/account] property.
+
+#Step #2 - "Deploy to DEV version": ERROR: (gcloud.run.deploy) [839850161816@cloudbuild.gserviceaccount.com] does not have permission to access namespaces instance [ricc-demos-386214] (or it may not exist): Permission 'iam.serviceaccounts.actAs' denied on service account 839850161816-compute@developer.gserviceaccount.com (or it may not exist). This command is authenticated as 839850161816@cloudbuild.gserviceaccount.com which is the active account specified by the [core/account] property.
