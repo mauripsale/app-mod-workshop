@@ -111,5 +111,5 @@ tags:
   - ricc-ne-sa-a-tronchi
 availableSecrets:
   secretManager:
-  - versionName: projects/PROJECT_ID/secrets/php-amarcord-db-pass/versions/latest
+  - versionName: projects/$PROJECT_ID/secrets/php-amarcord-db-pass/versions/latest
     env: 'DB_PASS'
