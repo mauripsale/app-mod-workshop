@@ -36,9 +36,11 @@ steps:
       - '--set-env-vars'
       -   "DB_NAME=$_DB_NAME"  # From CB trigger
       - '--set-env-vars'
-      -   "DB_PASS_TWODOLLS=$$DB_PASS"  # From SM defined in this yaml - end of page.
-      - '--set-env-vars'
-      -   "DB_PASS_UNDERSCORE=$_DB_PASS"  # From SM defined in this yaml - end of page.
+      -   "DB_PASS=$$DB_PASS"  # From SM defined in this yaml - end of page.
+      # - '--set-env-vars'
+      # -   "DB_PASS_TWODOLLS=$$DB_PASS"  # From SM defined in this yaml - end of page.
+      # - '--set-env-vars'
+      # -   "DB_PASS_UNDERSCORE=$_DB_PASS"  # From SM defined in this yaml - end of page.
       - >-
         --image=$_AR_HOSTNAME/$PROJECT_ID/cloud-run-source-deploy/$REPO_NAME/$_SERVICE_NAME:$COMMIT_SHA
 #      - >-
