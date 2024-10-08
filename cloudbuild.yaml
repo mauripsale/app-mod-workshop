@@ -21,8 +21,9 @@ steps:
     # All configs for `gcloud run deploy` are here: https://cloud.google.com/sdk/gcloud/reference/run/deploy
     args:
       - run
-      - services
-      - update
+      - deploy
+      # - services
+      # - update
       - $_SERVICE_NAME
       - '--platform=managed'
       #- '--port=80'
@@ -33,7 +34,7 @@ steps:
       - '--region=$_DEPLOY_REGION'
       - '--quiet'
 # non va col services..
-#      - '--allow-unauthenticated'
+      - '--allow-unauthenticated'
     # https://cloud.google.com/build/docs/configuring-builds/substitute-variable-values
     env:
     # copying RAILS_ENV approach.
@@ -55,7 +56,7 @@ substitutions:
   _AR_HOSTNAME: europe-west8-docker.pkg.dev
   _PLATFORM: managed
 #  _TRIGGER_ID: 9891957f-78d9-4931-a993-300127dafa7e
-  _SERVICE_NAME: php-amarcord-cb
+  _SERVICE_NAME: php-amarcord-cb # -dev
   _EXECUTION_ENVIRONMENT: 'rgc/cloudbuild'
   _GITHUB_USER: palladius
   _DEVFEST_CITY: modena
@@ -70,3 +71,5 @@ tags:
 
 ### ERRORs
 #Step #2 - "Deploy to DEV version": ERROR: (gcloud.run.services.update) PERMISSION_DENIED: Permission 'run.services.get' denied on resource 'namespaces/ricc-demos-386214/services/php-amarcord' (or resource may not exist). This command is authenticated as 839850161816@cloudbuild.gserviceaccount.com which is the active account specified by the [core/account] property.
+
+#textPayload: "ERROR: build step 2 "gcr.io/google.com/cloudsdktool/cloud-sdk:slim" failed: step exited with non-zero status: 1"
