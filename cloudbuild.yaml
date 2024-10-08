@@ -1,0 +1,54 @@
+# Remi CB copied from https://b.corp.google.com/issues/371959026
+steps:
+  - name: gcr.io/cloud-builders/docker
+    args:
+      - build
+      - '--no-cache'
+      - '-t'
+      - >-
+        $_AR_HOSTNAME/$PROJECT_ID/cloud-run-source-deploy/$REPO_NAME/$_SERVICE_NAME:$COMMIT_SHA
+      - .
+      - '-f'
+      - Dockerfile
+    id: Build docker file.
+  - name: gcr.io/cloud-builders/docker
+    args:
+      - push
+      - >-
+        $_AR_HOSTNAME/$PROJECT_ID/cloud-run-source-deploy/$REPO_NAME/$_SERVICE_NAME:$COMMIT_SHA
+    id: Push to Artifact Repository
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk:slim'
+    args:
+      - run
+      - services
+      - update
+      - $_SERVICE_NAME
+      - '--platform=managed'
+      - >-
+        --image=$_AR_HOSTNAME/$PROJECT_ID/cloud-run-source-deploy/$REPO_NAME/$_SERVICE_NAME:$COMMIT_SHA
+      - >-
+        --labels=managed-by=gcp-cloud-build-deploy-cloud-run,commit-sha=$COMMIT_SHA,gcb-build-id=$BUILD_ID,php-amarcord-github-user:$_GITHUB_USER,devfest-city:$_DEVFEST_CITY
+      - '--region=$_DEPLOY_REGION'
+      - '--quiet'
+    id: Deploy to DEV version
+    entrypoint: gcloud
+images:
+  - >-
+    $_AR_HOSTNAME/$PROJECT_ID/cloud-run-source-deploy/$REPO_NAME/$_SERVICE_NAME:$COMMIT_SHA
+options:
+  substitutionOption: ALLOW_LOOSE
+  logging: CLOUD_LOGGING_ONLY
+substitutions:
+  _DEPLOY_REGION: europe-west8
+  _AR_HOSTNAME: europe-west8-docker.pkg.dev
+  _PLATFORM: managed
+#  _TRIGGER_ID: 9891957f-78d9-4931-a993-300127dafa7e
+  _SERVICE_NAME: php-amarcord
+  _EXECUTION_ENVIRONMENT: 'rgc/cloudbuild'
+  _GITHUB_USER: palladius
+  _DEVFEST_CITY: modena
+tags:
+  - gcp-cloud-build-deploy-cloud-run
+  - gcp-cloud-build-deploy-cloud-run-managed
+  - zapiekanka
+  - gegonos
