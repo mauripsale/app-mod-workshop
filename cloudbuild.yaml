@@ -103,7 +103,7 @@ substitutions:
   _SERVICE_NAME: php-amarcord
   _EXECUTION_ENVIRONMENT: 'rgc/cloudbuild'
   _DEVFEST_CITY: modena
-  _GITHUB_USER: Friends-of-Ricc # change your your own, eg 'gregorio'
+  _GITHUB_USER: friends-of-ricc # change your your own, eg 'gregorio'
   _PROJECT_NUMBER: "839850161816" # Change it with your own
 tags:
   - gcp-cloud-build-deploy-cloud-run
