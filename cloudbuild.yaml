@@ -61,7 +61,6 @@ steps:
     - APP_NAME="A PHP Amarcord app deployed via Cloud Build to dev - break me as much as you want!"
     - DEBUG="true"
     - CODE_REPO="https://github.com/${_GITHUB_USER/app-mod-workshop/"
-    - "_DB_NAME=image_catalog_da_cb"
     id: Deploy to DEV version
     entrypoint: gcloud
 
