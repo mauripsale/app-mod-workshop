@@ -10,7 +10,7 @@ try {
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 } catch (PDOException $e) {
     // Riccardo toglimi!!!
-    die("[DEBUG DEPLOY db_pass='$db_pass'] Errore di connessione al db <b>$db_name</b> sull'host $db_host: " . $e->getMessage());
+    die("Errore di connessione al db <b>$db_name</b> sull'host $db_host: " . $e->getMessage());
 }
 
 session_start();

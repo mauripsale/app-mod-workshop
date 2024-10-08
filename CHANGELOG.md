@@ -2,6 +2,7 @@
 
 ```
 
+2024-10-08 v1.7 Restored balance in the force. Removed debug pwd :)
 *** WARNING ***
 2024-10-08 v1.6.1 DEBUG - enabled MySQL password in chiaro! (CB non va)
 *** WARNING ***
