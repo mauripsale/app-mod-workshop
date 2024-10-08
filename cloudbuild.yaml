@@ -55,12 +55,18 @@ substitutions:
   _AR_HOSTNAME: europe-west8-docker.pkg.dev
   _PLATFORM: managed
 #  _TRIGGER_ID: 9891957f-78d9-4931-a993-300127dafa7e
-  _SERVICE_NAME: php-amarcord
+  _SERVICE_NAME: php-amarcord-cb
   _EXECUTION_ENVIRONMENT: 'rgc/cloudbuild'
   _GITHUB_USER: palladius
   _DEVFEST_CITY: modena
 tags:
   - gcp-cloud-build-deploy-cloud-run
-  - gcp-cloud-build-deploy-cloud-run-managed
-  - zapiekanka
-  - gegonos
+  - php-amarcord
+  - ricc-ne-sa-a-tronchi
+  # - gcp-cloud-build-deploy-cloud-run-managed
+  # - zapiekanka
+  # - gegonos
+
+
+### ERRORs
+#Step #2 - "Deploy to DEV version": ERROR: (gcloud.run.services.update) PERMISSION_DENIED: Permission 'run.services.get' denied on resource 'namespaces/ricc-demos-386214/services/php-amarcord' (or resource may not exist). This command is authenticated as 839850161816@cloudbuild.gserviceaccount.com which is the active account specified by the [core/account] property.
