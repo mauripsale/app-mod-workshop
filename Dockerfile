@@ -14,9 +14,11 @@ WORKDIR /var/www/html
 COPY ./ /var/www/html
 
 # == riccardo note ==
-# Cloud Run says: "We recommend that you listen on $PORT instead of this specific number."
+# 1. Cloud Run says: "We recommend that you listen on $PORT instead of this specific number."
 # But if I change 80 to 8080 Apache won't just pick it up from here, I need to specify in a non-standard apache config
 # =>  Too much hussle.
+
+# 2. TODO make uploads/ RW as per Gregorio instructions.
 
 # Expose port 80 for web traffic
 EXPOSE 80
