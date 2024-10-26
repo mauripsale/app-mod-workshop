@@ -14,5 +14,5 @@ The database will also be populated with some images, which are already delivere
 # Basic configuration
 To configure the project:
 * update `config.php` to reflect the parameters that will be used to connect to the MySQL db;
-* make `/uploads` directory writable.
+* make `/uploads` directory writable...
 
