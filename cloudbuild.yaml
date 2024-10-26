@@ -1,0 +1,124 @@
+# Remi CB copied from https://b.corp.google.com/issues/371959026
+steps:
+  - name: gcr.io/cloud-builders/docker
+    args:
+      - build
+      - '--no-cache'
+      - '-t'
+      - >-
+        $_AR_HOSTNAME/$PROJECT_ID/cloud-run-source-deploy/$REPO_NAME/$_SERVICE_NAME:$COMMIT_SHA
+      - .
+      - '-f'
+      - Dockerfile
+    id: Build docker file.
+  - name: gcr.io/cloud-builders/docker
+    args:
+      - push
+      - >-
+        $_AR_HOSTNAME/$PROJECT_ID/cloud-run-source-deploy/$REPO_NAME/$_SERVICE_NAME:$COMMIT_SHA
+    id: Push to Artifact Repository
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk:slim'
+    # All configs for `gcloud run deploy` are here: https://cloud.google.com/sdk/gcloud/reference/run/deploy
+    args:
+      - run
+      - deploy
+      # alternative: requires service to already exist (will work all the time, except the first :P)
+      # - services
+      # - update
+      - ${_SERVICE_NAME}-dev
+      - '--platform=managed'
+      - '--port=80'
+      # Set up ENV vars for the Cloud run app..
+      - '--set-env-vars'
+      -   "DB_USER=$_DB_USER"  # From CB trigger
+      - '--set-env-vars'
+      -   "DB_HOST=$_DB_HOST"  # From CB trigger
+      - '--set-env-vars'
+      -   "DB_NAME=$_DB_NAME"  # From CB trigger
+      # This is EMPTY -> doesnt work.
+      #- '--set-env-vars'
+      #-   "TEST_SECRET_MANAGER_DB_PASS2=$_SECRET_MANAGER_DB_PASS"  # dopesnt work, seems empty
+      # This works
+      - '--set-secrets'
+      -   "DB_PASS=projects/${_PROJECT_NUMBER}/secrets/php-amarcord-db-pass" # TODO works only for Riccardo, change with your own PROJECT_NUMBER
+      - >-
+        --image=$_AR_HOSTNAME/$PROJECT_ID/cloud-run-source-deploy/$REPO_NAME/$_SERVICE_NAME:$COMMIT_SHA
+      - >-
+        --labels=managed-by=gcp-cloud-build-deploy-cloud-run,commit-sha=$COMMIT_SHA,gcb-build-id=$BUILD_ID,php-amarcord-github-user=$_GITHUB_USER,devfest-city=$_DEVFEST_CITY
+      - '--region=$_DEPLOY_REGION'
+      - '--quiet'
+      # Note to self: non va col services..
+      - '--allow-unauthenticated'
+    secretEnv: ['SECRET_MANAGER_DB_PASS']
+    env: # https://cloud.google.com/build/docs/configuring-builds/substitute-variable-values=
+    # copying RAILS_ENV approach.
+    - PHP_ENV=development
+    - PORT=80
+    - APP_NAME="A PHP Amarcord app deployed via Cloud Build to dev - break me as much as you want!"
+    - DEBUG="true"
+    - CODE_REPO="https://github.com/${_GITHUB_USER}/app-mod-workshop/"
+    id: Deploy to DEV version
+    entrypoint: gcloud
+
+  # PROD copy
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk:slim'
+    args:
+      - run
+      - deploy
+      - ${_SERVICE_NAME}-prod
+      - '--platform=managed'
+      - '--port=80'
+      - '--set-env-vars'
+      -   "DB_USER=$_DB_USER"
+      - '--set-env-vars'
+      -   "DB_HOST=$_DB_HOST"
+      - '--set-env-vars'
+      -   "DB_NAME=$_DB_NAME"
+      - '--set-secrets'
+      -   "DB_PASS=projects/${_PROJECT_NUMBER}/secrets/php-amarcord-db-pass" # TODO works only for Riccardo, change with your own PROJECT_NUMBER
+      - >-
+        --image=$_AR_HOSTNAME/$PROJECT_ID/cloud-run-source-deploy/$REPO_NAME/$_SERVICE_NAME:$COMMIT_SHA
+      # - >-
+      #   --labels=managed-by=gcp-cloud-build-deploy-cloud-run,commit-sha=$COMMIT_SHA,gcb-build-id=$BUILD_ID,php-amarcord-github-user=$_GITHUB_USER,devfest-city=$_DEVFEST_CITY
+      - '--region=$_DEPLOY_REGION'
+      - '--quiet'
+      - '--allow-unauthenticated'
+    env:
+    - PHP_ENV=production
+    - PORT=80
+    - APP_NAME="A PHP Amarcord app deployed via Cloud Build to PROD - please do not deploy on Fridays!"
+    - DEBUG="false"
+    - CODE_REPO="https://github.com/${_GITHUB_USER}/app-mod-workshop/"
+    id: Deploy to PROD version after DEV works
+    entrypoint: gcloud
+
+
+images:
+  - >-
+    $_AR_HOSTNAME/$PROJECT_ID/cloud-run-source-deploy/$REPO_NAME/$_SERVICE_NAME:$COMMIT_SHA
+options:
+  substitutionOption: ALLOW_LOOSE
+  logging: CLOUD_LOGGING_ONLY
+substitutions:
+  _DEPLOY_REGION: us-central1
+  _AR_HOSTNAME: us-central1-docker.pkg.dev
+  _PLATFORM: managed
+  _SERVICE_NAME: php-amarcord
+  _EXECUTION_ENVIRONMENT: 'rgc/cloudbuild'
+  _DEVFEST_CITY: pescara
+  _GITHUB_USER: mauripsale # change your your own, eg 'gregorio'
+  _PROJECT_NUMBER: "601607487011" # Change it with your own
+  _DB_HOST: "34.134.235.31"
+  _DB_NAME: "image_catalog"
+  _DB_USER: "appmod-phpapp-user"
+tags:
+  - gcp-cloud-build-deploy-cloud-run
+  - php-amarcord
+  - ricc-ne-sa-a-tronchi
+  - m-and-m-rock
+availableSecrets:
+  secretManager:
+  # - versionName: projects/$PROJECT_ID/secrets/php-amarcord-db-pass/versions/latest
+  #   env: 'DB_PASS'
+  - versionName: projects/$PROJECT_ID/secrets/php-amarcord-db-pass/versions/latest
+    env: 'SECRET_MANAGER_DB_PASS'
