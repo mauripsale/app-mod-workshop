@@ -27,7 +27,7 @@ steps:
       # - update
       - ${_SERVICE_NAME}-dev
       - '--platform=managed'
-      - '--port=80'
+      - '--port=8080'
       # Set up ENV vars for the Cloud run app..
       - '--set-env-vars'
       -   "DB_USER=$_DB_USER"  # From CB trigger
@@ -53,7 +53,7 @@ steps:
     env: # https://cloud.google.com/build/docs/configuring-builds/substitute-variable-values=
     # copying RAILS_ENV approach.
     - PHP_ENV=development
-    - PORT=80
+    - PORT=8080
     - APP_NAME="A PHP Amarcord app deployed via Cloud Build to dev - break me as much as you want!"
     - DEBUG="true"
     - CODE_REPO="https://github.com/${_GITHUB_USER}/app-mod-workshop/"
@@ -67,7 +67,7 @@ steps:
       - deploy
       - ${_SERVICE_NAME}-prod
       - '--platform=managed'
-      - '--port=80'
+      - '--port=8080'
       - '--set-env-vars'
       -   "DB_USER=$_DB_USER"
       - '--set-env-vars'
