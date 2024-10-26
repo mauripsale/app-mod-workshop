@@ -9,7 +9,7 @@ You can initialize the database using the scripts in `/db`. `01_schema.sql` will
 * an Admin user, with `admin` as username and `admin123` as password;
 * a normal User, with `user1` as username and `user123` as password;
 * an other normal User, with `user2` as username and `user123` as password.
-The database will also be populated with some images, that are already delivered with the application.
+The database will also be populated with some images, which are already delivered with the application.
 
 # Basic configuration
 To configure the project:
