@@ -13,6 +13,9 @@ WORKDIR /var/www/html
 # Copy the application code into the container
 COPY ./ /var/www/html
 
+# to make uploads doable ?
+RUN chmod 777 /var/www/html/uploads/
+
 # == riccardo note ==
 # 1. Cloud Run says: "We recommend that you listen on $PORT instead of this specific number."
 # But if I change 80 to 8080 Apache won't just pick it up from here, I need to specify in a non-standard apache config

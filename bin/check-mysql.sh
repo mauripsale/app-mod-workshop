@@ -22,5 +22,6 @@ echo mysql -u "$DB_USER" "-p$DB_PASS" $DB_NAME -h "$DB_HOST"
 #yellow "mysql -u $DB_USER -p'$DB_PASS' $DB_NAME -h $DB_HOST"
 echo '🧩 1. Showing the tables in the DB:'
 echo 'Show tables;' | mysql -u "$DB_USER" "-p$DB_PASS" "$DB_NAME" -h "$DB_HOST"
+
 echo '🧩 2. Showing the Users in the DB:'
 echo 'SELECT id,username,role FROM users;' | mysql -u "$DB_USER" "-p$DB_PASS" "$DB_NAME" -h "$DB_HOST"
