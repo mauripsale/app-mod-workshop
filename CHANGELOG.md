@@ -2,7 +2,8 @@
 
 ```
 
-2024-10-08 v1.7 Re-adding prod
+2024-10-08 v1.9 Uploads chmod 777 - cheap insecure.
+2024-10-08 v1.8 Re-adding prod
 2024-10-08 v1.7 Restored balance in the force. Removed debug pwd :)
 *** WARNING ***
 2024-10-08 v1.6.1 DEBUG - enabled MySQL password in chiaro! (CB non va)
