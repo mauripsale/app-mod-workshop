@@ -35,9 +35,6 @@ steps:
       -   "DB_HOST=$_DB_HOST"  # From CB trigger
       - '--set-env-vars'
       -   "DB_NAME=$_DB_NAME"  # From CB trigger
-      # This is EMPTY -> doesnt work.
-      #- '--set-env-vars'
-      #-   "TEST_SECRET_MANAGER_DB_PASS2=$_SECRET_MANAGER_DB_PASS"  # dopesnt work, seems empty
       # This works
       - '--set-secrets'
       -   "DB_PASS=projects/${_PROJECT_NUMBER}/secrets/php-amarcord-db-pass" # TODO works only for Riccardo, change with your own PROJECT_NUMBER
@@ -78,8 +75,6 @@ steps:
       -   "DB_PASS=projects/${_PROJECT_NUMBER}/secrets/php-amarcord-db-pass" # TODO works only for Riccardo, change with your own PROJECT_NUMBER
       - >-
         --image=$_AR_HOSTNAME/$PROJECT_ID/cloud-run-source-deploy/$REPO_NAME/$_SERVICE_NAME:$COMMIT_SHA
-      # - >-
-      #   --labels=managed-by=gcp-cloud-build-deploy-cloud-run,commit-sha=$COMMIT_SHA,gcb-build-id=$BUILD_ID,php-amarcord-github-user=$_GITHUB_USER,devfest-city=$_DEVFEST_CITY
       - '--region=$_DEPLOY_REGION'
       - '--quiet'
       - '--allow-unauthenticated'
