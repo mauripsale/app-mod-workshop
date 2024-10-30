@@ -29,3 +29,5 @@ if (isset($_ENV['DEBUG'])) {
 }
 
 -->
+
+</body>
