@@ -5,7 +5,7 @@ from google.cloud import aiplatform
 import base64
 
 # Import the function you want to test
-from main import gemini_describe_image  # Assuming your code is in main.py
+from main import *  # Assuming your code is in main.py
 
 def test_gemini_describe_image_from_local_file():
     """Tests the gemini_describe_image function with a local image."""
@@ -29,13 +29,23 @@ def test_gemini_describe_image_from_local_file():
     # assert "expected string" in caption  # Add assertions as needed
 
 
-def test_gemini_describe_image_from_gcs():
+def test_gemini_describe_image_from_gcs_for_riccardo():
     gcs_url = 'gs://ricc-demos-386214-public-images/RiccardoInVienna.jpg'
     caption = gemini_describe_image_from_gcs(gcs_url)
     # Print or assert the caption
-    print(f"Generated caption: {caption}")
+    print(f"Generated caption for {gcs_url}: {caption}")
     # assert it contains blue.
+    # Assert OCR for "Larry & Sergey"
+
+def test_gemini_describe_image_from_gcs_for_gcloud_command():
+    gcs_url = 'gs://ricc-demos-386214-public-images/cloud-run-deploy-flags.png'
+    caption = gemini_describe_image_from_gcs(gcs_url)
+    # Print or assert the caption
+    print(f"Generated caption for {gcs_url}: {caption}")
+    # assert it contains blue.
+    # Assert OCR for "Larry & Sergey"
 
 if __name__ == "__main__":
     #test_gemini_describe_image_from_local_file()
-    test_gemini_describe_image_from_gcs()
+    test_gemini_describe_image_from_gcs_for_riccardo()
+    test_gemini_describe_image_from_gcs_for_gcloud_command()

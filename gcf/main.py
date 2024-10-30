@@ -25,8 +25,7 @@ BUCKET_NAME = "your-bucket-name"
 #BUCKET="${PROJECT_ID}-public-images"
 
 DEFAULT_PROMPT = "Generate a caption for this image: "
-
-
+#"What is shown in this image?"
 
 def gemini_describe_image_from_local_file(base64_image, image_prompt=DEFAULT_PROMPT):
     '''This is currently broken..'''
@@ -37,14 +36,14 @@ def gemini_describe_image_from_gcs(gcs_url, image_prompt=DEFAULT_PROMPT):
 
     # Generate a caption using Gemini
     aiplatform.init(project=PROJECT_ID, location="us-central1")
-    model = GenerativeModel("gemini-1.5-flash-002")
+    model = GenerativeModel("gemini-1.5-pro")
 
     response = model.generate_content([
             Part.from_uri(
                 gcs_url,
                 mime_type="image/jpeg", # TODO remove or test with PNG..
             ),
-            #"What is shown in this image?"
+
             image_prompt,
         ])
 
@@ -76,38 +75,44 @@ def generate_caption(event, context):
     #print(f"Size: {file_size} bytes")
     #print(f"Content type: {content_type}")
 
+
     # Download the image from GCS
     storage_client = storage.Client()
     bucket = storage_client.bucket(bucket_name)
     blob = bucket.blob(file_name)
-    image_bytes = blob.download_as_bytes()
+    print(f"Blob: {blob}")
+    public_url = blob.public_url
+    print(f"Blob public URL: {public_url}")
 
-    # Encode the image in base64
-    base64_image = base64.b64encode(image_bytes).decode('utf-8')
+    # image_bytes = blob.download_as_bytes()
 
-    prompt = "Generate a caption for this image: "
-    caption = gemini_describe_image(base64_image, prompt)
+    # # Encode the image in base64
+    # base64_image = base64.b64encode(image_bytes).decode('utf-8')
 
-    # Generate a caption using Gemini
-    aiplatform.init(project=PROJECT_ID, location="us-central1")
-    response = aiplatform.execute_model(
-#        model="gemini-1.5-pro-001",  # Replace with the desired Gemini model
-        model="gemini-1.5-pro",  # Replace with the desired Gemini model
-        instances=[
-            {
-                "prompt": f"Generate a caption for this image: ",
-                "images": [
-                    {
-                        "data": base64_image,
-                        "mime_type": "image/jpeg"  # Replace with the actual MIME type
-                    }
-                ]
-            }
-        ]
-    )
+    # prompt = "Generate a caption for this image: "
+    # caption = gemini_describe_image(base64_image, prompt)
+    caption = gemini_describe_image_from_gcs(public_url)
 
-    # Extract the caption from the response
-    caption = response.predictions[0]['candidates'][0]['content']
+#     # Generate a caption using Gemini
+#     aiplatform.init(project=PROJECT_ID, location="us-central1")
+#     response = aiplatform.execute_model(
+# #        model="gemini-1.5-pro-001",  # Replace with the desired Gemini model
+#         model="gemini-1.5-pro",  # Replace with the desired Gemini model
+#         instances=[
+#             {
+#                 "prompt": f"Generate a caption for this image: ",
+#                 "images": [
+#                     {
+#                         "data": base64_image,
+#                         "mime_type": "image/jpeg"  # Replace with the actual MIME type
+#                     }
+#                 ]
+#             }
+#         ]
+#     )
+
+#     # Extract the caption from the response
+#     caption = response.predictions[0]['candidates'][0]['content']
 
     # Print the caption (you can also store it or use it as needed)
     print(f"Generated caption: {caption}")
