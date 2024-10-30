@@ -6,10 +6,11 @@
 * Vertex:
 * AI Studio: https://ai.google.dev/gemini-api/docs/vision
 
-v0.5 - DB integration seems to work.
-v0.4 - finally it works! pushing and cleaning up
+v0.6 30oct24 DB with Fantastic 4 ENVs.
+v0.5 30oct24 DB integration seems to work.
+v0.4 30oct24 finally it works! pushing and cleaning up
 '''
-GCF_VERSION = '0.5'
+GCF_VERSION = '0.6'
 
 
 from google.cloud import storage
@@ -27,7 +28,7 @@ import pymysql.cursors
 # Replace with your project ID
 #PROJECT_ID = "your-project-id"
 PROJECT_ID='ricc-demos-386214'
-
+GEMINI_MODEL = "gemini-1.5-pro-002"
 DEFAULT_PROMPT = "Generate a caption for this image: "
 #DEFAULT_PROMPT2 = "What is shown in this image?"
 
@@ -38,10 +39,12 @@ DEFAULT_PROMPT = "Generate a caption for this image: "
 def gemini_describe_image_from_gcs(gcs_url, image_prompt=DEFAULT_PROMPT):
     '''This is currently broken..'''
 
-    # Generate a caption using Gemini
     # TODO auto-detect project id
     aiplatform.init(project=PROJECT_ID, location="us-central1")
-    model = GenerativeModel("gemini-1.5-pro")
+    # Generate a caption using Gemini
+    model = GenerativeModel(GEMINI_MODEL) # "gemini-1.5-pro"?
+
+    print(f"Calling {GEMINI_MODEL} for {gcs_url} with this prompt: '''{image_prompt}'''")
 
     response = model.generate_content([
             Part.from_uri(
@@ -57,7 +60,14 @@ def gemini_describe_image_from_gcs(gcs_url, image_prompt=DEFAULT_PROMPT):
     # Extract the caption from the response
     return response.text
 
-def update_db_with_description(image_filename, caption, db_pass , db_user='appmod-phpapp-user', db_host='34.154.154.222', db_name='image_catalog'):
+def update_db_with_description(
+        image_filename, 
+        caption, 
+        db_user, 
+        db_pass, 
+        db_host, 
+        db_name
+        ):
     '''
     '''
     #print(f"update_db_with_description(): Updating DB for img='{image_filename}' with caption '..'. ConnString='{db_conn_string}'")
@@ -69,7 +79,7 @@ def update_db_with_description(image_filename, caption, db_pass , db_user='appmo
     conn = None
 
     try:
-        print("update_db_with_description(): Connecting to DB...")
+        print(f"update_db_with_description(): Connecting to '{db_name}' DB @{db_host}...")
         # Connect to the database
         #import ipdb; ipdb.set_trace()
 
@@ -77,9 +87,9 @@ def update_db_with_description(image_filename, caption, db_pass , db_user='appmo
                              user=db_user,
                              password=db_pass,
                              database=db_name,)
-        print("update_db_with_description(): Now the cursor...")
+        #print("update_db_with_description(): Now the cursor...")
         cursor = conn.cursor()
-        print("update_db_with_description(): Now sql..")
+        #print("update_db_with_description(): Now sql..")
 
         # SQL query to update the database (replace placeholders with actual table and column names)
         sql = 'UPDATE images SET description = %s WHERE filename = %s'
@@ -144,15 +154,36 @@ def generate_caption(event, context):
     # **MySQL Update Functionality**
 
     # Construct the connection string (replace placeholders with your actual values)
-    #conn_string = f"mysql+pymysql://{os.environ['MYSQL_USER']}:{os.environ['MYSQL_PASSWORD']}@{os.environ['MYSQL_HOST']}:{os.environ['MYSQL_PORT']}/{os.environ['MYSQL_DATABASE']}"
-    #conn_string = os.environ('DB_PYTHON_CONNECTION_STRING')
+    # My goodness, pymysql - you could support connection string, bro!
+
+    db_user = os.getenv('DB_USER', None)
     db_pass = os.getenv('DB_PASS', None)
+    db_host = os.getenv('DB_HOST', None)
+    db_name = os.getenv('DB_NAME', None)
+    if db_user is None:
+        print("DB_USER is not set. I cant proceed. Please get your ENV back together!")
+        return -1
     if db_pass is None:
         print("DB_PASS is not set. I cant proceed. Please get your ENV back together!")
         return -1
-    update_db_with_description(file_name, caption, db_pass)
+    if db_host is None:
+        print("DB_HOST is not set. I cant proceed. Please get your ENV back together!")
+        return -1
+    if db_name is None:
+        print("DB_NAME is not set. I cant proceed. Please get your ENV back together!")
+        return -1
+    update_db_with_description(
+        file_name=file_name, 
+        caption=caption, 
+        db_user=db_user, 
+        db_pass=db_pass, 
+        db_host=db_host, 
+        db_name=db_name)
     return True
 
 # def flag_inappropriate():
 #     '''TODO(ricc): ask gemini if its inappropriuate and if so, flag it and update DB with TRUE'''
 #     pass
+
+    #conn_string = f"mysql+pymysql://{os.environ['MYSQL_USER']}:{os.environ['MYSQL_PASSWORD']}@{os.environ['MYSQL_HOST']}:{os.environ['MYSQL_PORT']}/{os.environ['MYSQL_DATABASE']}"
+    #conn_string = os.environ('DB_PYTHON_CONNECTION_STRING')

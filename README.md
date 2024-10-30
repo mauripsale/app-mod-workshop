@@ -1,7 +1,9 @@
+Self: https://github.com/Friends-of-Ricc/app-mod-workshop
+
 # TODO per Gregorio
 
-1. Aggiungi .env.dist
-1. Aggiungi .env a .gitignore per evitare che la gente lo checki per sbaglio.
+1. Aggiungi `.env.dist`
+1. Aggiungi `.env` a `.gitignore` per evitare che la gente lo checki per sbaglio.
 
 ## Ricc app
 
@@ -22,6 +24,8 @@ You can initialize the database using the scripts in `/db`. `01_schema.sql` will
 The database will also be populated with some images, that are already delivered with the application.
 
 # Basic configuration
+
 To configure the project:
+
 * update `config.php` to reflect the parameters that will be used to connect to the MySQL db;
 * make `/uploads` directory writable.

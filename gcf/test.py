@@ -49,14 +49,28 @@ def test_gemini_describe_image_from_gcs_for_gcloud_command():
 
 def test_update_db_with_string():
     '''This is secret also test needs .env to help..'''
+    db_user = os.getenv('DB_USER', None)
     db_pass = os.getenv('DB_PASS', None)
+    db_host = os.getenv('DB_HOST', None)
+    db_name = os.getenv('DB_NAME', None)
+    if db_user is None:
+        print("DB_USER is not set. I cant proceed. Please get your ENV back together!")
+        return -1
     if db_pass is None:
-        print("DB_PASS is not set. I cant proceed. Rummage in your .env file.")
-        return 42
-
+        print("DB_PASS is not set. I cant proceed. Please get your ENV back together!")
+        return -1
+    if db_host is None:
+        print("DB_HOST is not set. I cant proceed. Please get your ENV back together!")
+        return -1
+    if db_name is None:
+        print("DB_NAME is not set. I cant proceed. Please get your ENV back together!")
+        return -1
+    print(f"db_user: {db_user}")
     print(f"db_pass: {db_pass}")
-    update_db_with_description("image_1", "This is a first Unit Test", db_pass)
-    update_db_with_description("PXL_20241014_062548507.jpg", "This is a second Unit Test", db_pass)
+    print(f"db_host: {db_host}")
+    print(f"db_name: {db_name}")
+    update_db_with_description("image_1", "This is a first Unit Test", db_user, db_pass, db_host, db_name)
+    update_db_with_description("PXL_20241014_062548507.jpg", "This is a second Unit Test",  db_user, db_pass, db_host, db_name)
 
 
 

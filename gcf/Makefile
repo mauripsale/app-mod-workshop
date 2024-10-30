@@ -3,4 +3,5 @@ push-code:
 	./push-to-gcf.sh
 
 test:
-	python test.py
+#	python test.py
+	./test.sh

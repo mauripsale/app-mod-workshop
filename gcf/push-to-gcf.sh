@@ -2,7 +2,10 @@
 
 set -euo pipefail
 
-source ../.env ||  fatal 2
+echo Sourcing .env..
+# source ../.env ||  fatal 2
+
+.  ~/git/app-mod-workshop-set-by-step/.env
 
 echo "Pushing ☁️ f(x)☁ to 🪣 $GS_BUCKET, along with DB config.. (DB_PASS=$DB_PASS)"
 
@@ -13,7 +16,7 @@ echodo gcloud --project "$PROJECT_ID" functions deploy php_amarcord_generate_cap
     --region "$GCP_REGION" \
     --trigger-event google.cloud.storage.object.v1.finalized \
     --trigger-resource "$BUCKET" \
-    --set-env-vars FOO=bar,BAZ=boo,DB_PASS="$DB_PASS" \
+    --set-env-vars "DB_HOST=$DB_HOST,DB_NAME=$DB_NAME,DB_PASS=$DB_PASS,DB_USER=$DB_USER" \
     --source . \
     --entry-point generate_caption \
     --gen2
