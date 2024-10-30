@@ -2,6 +2,7 @@
 
 ```
 
+2024-10-08 v1.9.1 Added PHP Upload link - minor.
 2024-10-08 v1.9 Uploads chmod 777 - cheap insecure.
 2024-10-08 v1.8 Re-adding prod
 2024-10-08 v1.7 Restored balance in the force. Removed debug pwd :)
