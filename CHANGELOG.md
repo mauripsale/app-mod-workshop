@@ -1,10 +1,13 @@
 ## CHANGELOG
 
 ```
-
+2024-10-30 v1.10.2 -- Cleaning up composer stuff.
 2024-10-30 v1.10.1 -- Adding caption to PHP simple gallery.
 2024-10-30 v1.10.0 -- Altered DB schema, added description to image for Gemini part
-2024-10-08 v1.9.1 Added PHP Upload link - minor.
+2024-10-30 v1.9.1bis Added horrible Composer dependencies
+  *** WARNING ***
+  Lot of clutter here. Might consider removing: vendor, composer, composer
+2024-10-30 v1.9.1 Added PHP Upload link - minor.
 2024-10-08 v1.9 Uploads chmod 777 - cheap insecure.
 2024-10-08 v1.8 Re-adding prod
 2024-10-08 v1.7 Restored balance in the force. Removed debug pwd :)
