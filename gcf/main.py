@@ -24,38 +24,29 @@ PROJECT_ID='ricc-demos-386214'
 BUCKET_NAME = "your-bucket-name"
 #BUCKET="${PROJECT_ID}-public-images"
 
+DEFAULT_PROMPT = "Generate a caption for this image: "
 
-def gemini_describe_image(base64_image, image_prompt):
+
+
+def gemini_describe_image_from_local_file(base64_image, image_prompt=DEFAULT_PROMPT):
+    '''This is currently broken..'''
+    raise "TODO"
+
+def gemini_describe_image_from_gcs(gcs_url, image_prompt=DEFAULT_PROMPT):
     '''This is currently broken..'''
 
     # Generate a caption using Gemini
     aiplatform.init(project=PROJECT_ID, location="us-central1")
     model = GenerativeModel("gemini-1.5-flash-002")
 
-    response = model.generate_content(
-    [
-        Part.from_uri(
-            "gs://cloud-samples-data/generative-ai/image/scones.jpg",
-            mime_type="image/jpeg",
-        ),
-        "What is shown in this image?",
-    ]
-)
-
-    # response = model.generate_content(
-    #     model="gemini-1.5-pro-002",  # Replace with the desired Gemini model
-    #     instances=[
-    #         {
-    #             "prompt": image_prompt,
-    #             "images": [
-    #                 {
-    #                     "data": base64_image,
-    #                     "mime_type": "image/jpeg"  # Replace with the actual MIME type
-    #                 }
-    #             ]
-    #         }
-    #     ]
-    # )
+    response = model.generate_content([
+            Part.from_uri(
+                gcs_url,
+                mime_type="image/jpeg", # TODO remove or test with PNG..
+            ),
+            #"What is shown in this image?"
+            image_prompt,
+        ])
 
     print(f"Gemini spoken: '''{response.text}''' in class today!" )
 
