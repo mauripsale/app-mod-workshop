@@ -16,3 +16,6 @@ build-and-run:docker-build docker-run-local
 # Cloud Run
 deploy:
 	bin/gcloud-run-deploy.sh
+
+watch-gcs:
+	watch gsutil -m ls gs://ricc-demos-386214-public-images/
