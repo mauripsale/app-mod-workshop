@@ -1,13 +1,12 @@
 # TODO per Gregorio
 
-1. fixa db/ -> Pr esiste
 1. Aggiungi .env.dist
 1. Aggiungi .env a .gitignore per evitare che la gente lo checki per sbaglio.
 
 ## Ricc app
 
 * App dev: https://php-amarcord-dev-839850161816.europe-west8.run.app/
-* app prod:
+* App prod: https://php-amarcord-prod-839850161816.europe-west8.run.app/
 
 # Workshop: Application Modernization in GCP
 Codebase for the workshop "Application Modernization in GCP"

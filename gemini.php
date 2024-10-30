@@ -1,5 +1,10 @@
 <?php
 
+// This is broken
+// https://php-amarcord-dev-839850161816.europe-west8.run.app/gemini.php
+// TODO(ricc):
+//  1. require login, so not everyone uses it.
+//  2. add composer to Dockerfile. Looks like composer 2.2. supports it: https://getcomposer.org/doc/00-intro.md
     use GeminiAPI\Client;
     use GeminiAPI\Resources\Parts\TextPart;
 
