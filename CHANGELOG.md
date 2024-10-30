@@ -2,7 +2,8 @@
 
 ```
 
-2024-10-08 v1.10.0 -- Altered DB schema, added description to image for Gemini part
+2024-10-30 v1.10.1 -- Adding caption to PHP simple gallery.
+2024-10-30 v1.10.0 -- Altered DB schema, added description to image for Gemini part
 2024-10-08 v1.9.1 Added PHP Upload link - minor.
 2024-10-08 v1.9 Uploads chmod 777 - cheap insecure.
 2024-10-08 v1.8 Re-adding prod

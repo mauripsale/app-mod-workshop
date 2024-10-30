@@ -25,6 +25,7 @@ $images = $stmt->fetchAll();
 <?php foreach ($images as $image): ?>
     <div>
         <img src="<?php echo $image['filename']; ?>" alt="Immagine" width="200" />
+        <p>Caption: <i><?php echo $image['description']; ?></i></p>
         <?php if ($is_admin): ?>
             <form method="post" action="inappropriate.php">
                 <input type="hidden" name="image_id" value="<?php echo $image['id']; ?>" />
