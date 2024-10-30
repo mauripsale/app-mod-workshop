@@ -1,7 +1,7 @@
 ## CHANGELOG
 
 ```
-2024-10-30 v1.10.4 -- Adding a nice card for pictures show.
+2024-10-30 v1.10.4 -- Adding a nice card for pictures show, derisking under `index-tailwind.php`
 2024-10-30 v1.10.3 -- Adding header/footer with HEAD and CSS pointing to tailwind..
 2024-10-30 v1.10.2 -- Cleaning up composer stuff.
 2024-10-30 v1.10.1 -- Adding caption to PHP simple gallery.
