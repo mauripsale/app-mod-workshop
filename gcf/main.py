@@ -173,7 +173,7 @@ def generate_caption(event, context):
         print("DB_NAME is not set. I cant proceed. Please get your ENV back together!")
         return -1
     update_db_with_description(
-        file_name=file_name, 
+        image_filename=file_name, 
         caption=caption, 
         db_user=db_user, 
         db_pass=db_pass, 
