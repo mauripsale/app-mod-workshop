@@ -1,6 +1,8 @@
 ## CHANGELOG
 
 ```
+2024-10-30 v1.10.5 -- Tailwind is amazing, promoted. Also adding an if(description=='') -> do not add caption part.
+                      Maybe add a button compute with gemini.
 2024-10-30 v1.10.4 -- Adding a nice card for pictures show, derisking under `index-tailwind.php`
 2024-10-30 v1.10.3 -- Adding header/footer with HEAD and CSS pointing to tailwind..
 2024-10-30 v1.10.2 -- Cleaning up composer stuff.
