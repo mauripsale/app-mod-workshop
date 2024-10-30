@@ -18,3 +18,9 @@ CREATE TABLE images (
     inappropriate TINYINT(1) DEFAULT 0,
     FOREIGN KEY (user_id) REFERENCES users(id)
 );
+
+
+-- -- Tabella immagini - Gemini addon
+-- -- Executed in step 71
+-- ALTER TABLE images
+--  ADD COLUMN description TEXT;

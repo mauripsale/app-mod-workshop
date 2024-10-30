@@ -1,8 +1,21 @@
 #!/usr/bin/env python
 
+'''Documentation:
+
+
+* Vertex:
+* AI Studio: https://ai.google.dev/gemini-api/docs/vision
+
+'''
+
 from google.cloud import storage
 from google.cloud import aiplatform
 import base64
+
+import vertexai
+from vertexai.generative_models import GenerativeModel, Part
+
+
 
 # Replace with your project ID
 #PROJECT_ID = "your-project-id"
@@ -10,6 +23,45 @@ PROJECT_ID='ricc-demos-386214'
 # Replace with your GCS bucket name
 BUCKET_NAME = "your-bucket-name"
 #BUCKET="${PROJECT_ID}-public-images"
+
+
+def gemini_describe_image(base64_image, image_prompt):
+    '''This is currently broken..'''
+
+    # Generate a caption using Gemini
+    aiplatform.init(project=PROJECT_ID, location="us-central1")
+    model = GenerativeModel("gemini-1.5-flash-002")
+
+    response = model.generate_content(
+    [
+        Part.from_uri(
+            "gs://cloud-samples-data/generative-ai/image/scones.jpg",
+            mime_type="image/jpeg",
+        ),
+        "What is shown in this image?",
+    ]
+)
+
+    # response = model.generate_content(
+    #     model="gemini-1.5-pro-002",  # Replace with the desired Gemini model
+    #     instances=[
+    #         {
+    #             "prompt": image_prompt,
+    #             "images": [
+    #                 {
+    #                     "data": base64_image,
+    #                     "mime_type": "image/jpeg"  # Replace with the actual MIME type
+    #                 }
+    #             ]
+    #         }
+    #     ]
+    # )
+
+    print(f"Gemini spoken: '''{response.text}''' in class today!" )
+
+    # Extract the caption from the response
+    #caption = response.predictions[0]['candidates'][0]['content']
+    return response.text
 
 def generate_caption(event, context):
     """
@@ -41,6 +93,9 @@ def generate_caption(event, context):
 
     # Encode the image in base64
     base64_image = base64.b64encode(image_bytes).decode('utf-8')
+
+    prompt = "Generate a caption for this image: "
+    caption = gemini_describe_image(base64_image, prompt)
 
     # Generate a caption using Gemini
     aiplatform.init(project=PROJECT_ID, location="us-central1")
