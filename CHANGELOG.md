@@ -1,6 +1,7 @@
 ## CHANGELOG
 
 ```
+2024-10-30 v1.10.6 -- Better image rendering if no rendering.. https://screenshot.googleplex.com/ASesmtDa7rg6gbU
 2024-10-30 v1.10.5 -- Tailwind is amazing, promoted. Also adding an if(description=='') -> do not add caption part.
                       Maybe add a button compute with gemini.
 2024-10-30 v1.10.4 -- Adding a nice card for pictures show, derisking under `index-tailwind.php`
